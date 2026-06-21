@@ -1,10 +1,13 @@
 import random
 import time
+import os
 
-# ADICIONAR CONTEUDO: INIMIGOS DIFERENTES E ESPADAS DIFERENTES
+# ADICIONAR CONTEUDO: INIMIGOS DIFERENTES E ESPADAS DIFERENTES E UM FIM?
+# cores e sons
 # critico talvez?
 # dodge chance talvez?
 
+os.system('')
 
 def nome_equip(jogador, equiploja):
     for i in range(len(equiploja)):
@@ -14,11 +17,11 @@ def nome_equip(jogador, equiploja):
 def exibe_status(jogador, equiploja, levelup=False): # Função basica que mostra os status do jogador caso necessário
     print('-'*50)
     if levelup:
-        print('Seus status aumentaram!')
+        print('\033[32mSeus status aumentaram!\033[0m')
         for i, j in jogador.items():
             if i != "vida_atual" and i != "exp" and i != "nivel" and i != "nome" and i != "ouro" and i != 'pocao' and i != "equipamento":
                 time.sleep(0.2)
-                print(f'{i}: {j}')
+                print(f'\033[36m{i}: {j}\033[0m')
     else:
         for i, j in jogador.items():
                 time.sleep(0.2)
@@ -33,67 +36,67 @@ def exibe_status(jogador, equiploja, levelup=False): # Função basica que mostr
 def curandeiro(jogador): # O curandeiro, onde se pode pagar ouro para obter cura
     custo_cura = (jogador["vida"] - jogador["vida_atual"]) // 2
     try:
-        escolha = int(input('Você passa pelos panos na porta da casa do curandeiro.\nAo te ver, o curandeiro diz:\n"Bem-vindo a meu estabelecimento! Necessita de meus serviços?\n1- Sim, por favor\n2- Não, obrigado (Retornar a praça principal)\n'))
+        escolha = int(input('Você passa pelos panos na porta da casa do curandeiro.\nAo te ver, o curandeiro diz:\n\033[36m"Bem-vindo a meu estabelecimento! Necessita de meus serviços?\033[0m\n1- Sim, por favor\n2- Não, obrigado (Retornar a praça principal)\n'))
     except ValueError:
-        print('Digite apenas números válidos!')
+        print('\033[31mDigite apenas números válidos!\033[0m')
         return curandeiro(jogador)
     if escolha == 1:
         if jogador["vida"] == jogador["vida_atual"]:
             print('Sua vida já está cheia')
         elif jogador["vida_atual"] == 0 and jogador["ouro"] < custo_cura:
-            print('O curandeiro diz:\n"Vejo que está muito ferido e que não possuí muito dinheiro.\nIrei te curar pelo preço que puder pagar, tudo bem?"')
+            print('O curandeiro diz:\n\033[36m"Vejo que está muito ferido e que não possuí muito dinheiro.\nIrei te curar pelo preço que puder pagar, tudo bem?"\033[0m')
             try:
-                escolha2 = int(input('Dar todo seu ouro em troca da cura?\n1- Sim\n2- Não\n'))
+                escolha2 = int(input('Dar \033[31mtodo seu ouro\033[0m em troca da cura?\n1- Sim\n2- Não\n'))
             except ValueError:
-                print('Digite apenas números válidos!')
+                print('\033[31mDigite apenas números válidos!\033[0m')
                 return curandeiro(jogador)
             if escolha2 < 1 or escolha2 > 2:
-                print('Escolha apenas opções válidas!')
+                print('\033[31mEscolha apenas opções válidas!\033[0m')
                 return curandeiro(jogador)
             elif escolha2 == 1:
-                 print("O curandeiro coloca as mãos sobre seus ferimentos, e após um leve brilho verde, você não sente mais dor alguma.\nSua vida se regenerou ao máximo!")
+                 print("O curandeiro coloca as mãos sobre seus ferimentos, e após um leve brilho verde, você não sente mais dor alguma.\n\033[32mSua vida se regenerou ao máximo!\033[0m")
                  jogador['ouro'] = 0
                  jogador['vida_atual'] == jogador['vida']
         else:
             try:
-                curarounao = int(input(f'O curandeiro diz:\n"Para te curar completamente, cobrarei {custo_cura} de ouros, tudo bem?"\n1- Sim, por favor\n2- Não, obrigado (Retornar a praça principal)\n'))
+                curarounao = int(input(f'O curandeiro diz:\n\033[36m"Para te curar completamente, cobrarei {custo_cura} de ouros, tudo bem?"\033[0m\n1- Sim, por favor\n2- Não, obrigado (Retornar a praça principal)\n'))
             except ValueError:
-                print('Digite apenas números válidos!')
+                print('\033[31mDigite apenas números válidos!\033[0m')
                 return curandeiro(jogador)
             if curarounao == 1:
                 if jogador["ouro"] < custo_cura:
                     print('Você não possui ouro suficiente para isso.')
                 else:
-                    print("O curandeiro coloca as mãos sobre seus ferimentos, e após um leve brilho verde, você não sente mais dor alguma.\nSua vida se regenerou ao máximo!")
+                    print("O curandeiro coloca as mãos sobre seus ferimentos, e após um leve brilho verde, você não sente mais dor alguma.\n\033[32mSua vida se regenerou ao máximo!\033[0m")
                     jogador["ouro"] -= custo_cura
                     jogador["vida_atual"] == jogador["vida"]
             elif curarounao < 1 or curarounao > 2:
-                print('Escolha apenas opções válidas!')
+                print('\033[31mEscolha apenas opções válidas!\033[0m')
                 return curandeiro(jogador)
     elif escolha < 1 or escolha > 2:
-        print('Escolha apenas opções válidas!')
+        print('\033[31mEscolha apenas opções válidas!\033[0m')
         return curandeiro(jogador)
 
 def loja(jogador, iloja, equiploja): #loja onde o jogador pode comprar itens
 
-    print(f'Você passa entra pela porta e cumprimenta o lojista\nEle diz:\n"Bem-vindo a minha loja, o que deseja comprar?" (Você possui {jogador["ouro"]} de ouro)')
+    print(f'Você passa entra pela porta e cumprimenta o lojista\nEle diz:\n\033[36m"Bem-vindo a minha loja, o que deseja comprar?"\033[0m (Você possui {jogador["ouro"]} de ouro)')
     for i in range(len(iloja)):
-        print(f'{i+1}- {iloja[i]["nome"]} ({iloja[i]["preco"]} de ouro)\n    {iloja[i]["desc"]}')
+        print(f'{i+1}- {iloja[i]["nome"]} (\033[33m{iloja[i]["preco"]} de ouro\033[0m)\n    {iloja[i]["desc"]}')
     for i in range(len(equiploja)):
             if equiploja[i]["id"] == jogador["equipamento"]+1:
-                print(f'{len(iloja)+1}- {equiploja[i]["nome"]} ({equiploja[i]["preco"]} de ouro)\n    {equiploja[i]["desc"]}')
+                print(f'{len(iloja)+1}- {equiploja[i]["nome"]} (\033[33m{equiploja[i]["preco"]} de ouro\033[0m)\n    {equiploja[i]["desc"]}')
 
     try:
         escolha = int(input(f'{len(iloja) + jogador["equipamento"]+2}- Voltar para a praça principal\n'))
     except ValueError:
-        print('Digite apenas números válidos!')
+        print('\033[31mDigite apenas números válidos!\033[0m')
         return loja(jogador, iloja, equiploja)
 
     if escolha > len(iloja):
         if jogador['ouro'] < equiploja[jogador["equipamento"]+1]["preco"]:
             print('Você não possui dinheiro suficiente para isso.')
         else:
-            print('"Ótima escolha, faça bom proveito..."')
+            print('\033[36m"Ótima escolha, faça bom proveito..."\033[0m')
             jogador['ouro'] -= equiploja[jogador["equipamento"]+1]["preco"]
             jogador['equipamento'] = equiploja[jogador["equipamento"]+1]['id']
             jogador['dano_min'] += equiploja[jogador["equipamento"]]["dano_min"]
@@ -106,13 +109,13 @@ def loja(jogador, iloja, equiploja): #loja onde o jogador pode comprar itens
         if jogador['ouro'] < iloja[escolha-1]["preco"]:
             print('Você não possui dinheiro suficiente para isso.')
         else:
-            print('"Ótima escolha, faça bom proveito..."')
+            print('\033[36m"Ótima escolha, faça bom proveito..."\033[0m')
             jogador['ouro'] -= iloja[escolha-1]["preco"]
             if iloja[escolha-1]["nome"] == "Poção":
                 jogador['pocao'] = True
             
     if escolha < 1 or escolha > len(iloja)+2:
-        print('Escolha apenas opções válidas!')
+        print('\033[31mEscolha apenas opções válidas!\033[0m')
         return loja(jogador, iloja, equiploja)
     
 def arena(jogador, inimigos): # A arena, onde o usuario pode escolher com qual monstro lutar para conseguir ficar mais forte
@@ -124,29 +127,29 @@ def arena(jogador, inimigos): # A arena, onde o usuario pode escolher com qual m
     try:  
         escolha = int(input(f'{len(inimigos)+1}- Voltar para a praça principal\n'))
     except ValueError:
-        print('Digite apenas números válidos!')
+        print('\033[31mDigite apenas números válidos!\033[0m')
         return arena(jogador, inimigos)
     
     if escolha < 1 or escolha > len(inimigos)+1:
-        print('Escolha apenas opções válidas!')
+        print('\033[31mEscolha apenas opções válidas!\033[0m')
         return arena(jogador, inimigos)
 
     
     elif escolha <= len(inimigos):    
         print('Se prepare!')
         if luta(jogador, inimigos[escolha-1]):
-            print('Parabéns pela vitória! Talvez seja uma boa ideia se curar um pouco.')
+            print(f'\033[33mParabéns pela vitória! Talvez seja uma boa ideia se curar um pouco.\033[0m')
         else:
-            print(f'Caramba, Esse inimigo era muito forte! Talvez você devesse treinar mais\nNão esqueça de se curar, pois sua vida está em 0!')
+            print(f'\033[33mCaramba, Esse inimigo era muito forte! Talvez você devesse treinar mais\nNão esqueça de se curar, pois sua vida está em 0!\033[0m')
         subiu_de_nivel(jogador)
     
 
 def menu(jogador, inimigos, iloja, equiploja): # o menu principal do jogo, onde o jogador pode escolher o que fazer
     print('O que deseja fazer?')
     try:
-        escolha = int(input('1- Arena\n2- Loja\n3- Curandeiro\n4- Status '))
+        escolha = int(input('1- Arena\n2- Loja\n3- Curandeiro\n4- Status\n'))
     except ValueError:
-        print('Digite apenas números válidos!')
+        print('\033[31mDigite apenas números válidos!\033[0m')
         return
     if escolha == 1:
         if jogador["vida_atual"] == 0:
@@ -155,7 +158,7 @@ def menu(jogador, inimigos, iloja, equiploja): # o menu principal do jogo, onde 
     elif escolha == 2: loja(jogador, iloja, equiploja)
     elif escolha == 3: curandeiro(jogador)
     elif escolha == 4: exibe_status(jogador, equiploja)
-    else: print('Escolha apenas opções válidas!')
+    else: print('\033[31mEscolha apenas opções válidas!\033[0m')
         
     
 
@@ -169,7 +172,7 @@ def subiu_de_nivel(jogador): #função chamada para verificar caso o jogador ten
     if jogador['exp'] >= barreira_de_xp:
         jogador['nivel'] += 1
         print('-'*50)
-        print(f'SUBIU DE NÍVEL!\n{jogador["nivel"]-1} -> {jogador["nivel"]}')
+        print(f'\033[32mSUBIU DE NÍVEL!\n{jogador["nivel"]-1} -> {jogador["nivel"]}\033[0m')
         print('Sua vida se regenerou ao máximo!')
         print('-'*50)
         time.sleep(0.5)
@@ -283,16 +286,34 @@ def main():
     "exp_dado": 15,
     "ouro_dado": 30,
     "nivel": 10},
+    {"nome": "Gigante",
+    "vida": 300,
+    "vida_atual": 300,
+    "dano_min": 23,
+    "dano_max": 30,
+    "defesa": 10,
+    "exp_dado": 25,
+    "ouro_dado": 45,
+    "nivel": 15},
+    {"nome": "Dragão",
+    "vida": 500,
+    "vida_atual": 500,
+    "dano_min": 30,
+    "dano_max": 45,
+    "defesa": 15,
+    "exp_dado": 50,
+    "ouro_dado": 70,
+    "nivel": '?'},
     ]
 
-    iloja = [
+    iloja = [ #Lista de itens na loja que não são equipamentos
     {"nome": "Poção de cura",
      "preco": 80,
      "desc": "Você usará a poção automaticamente quando estiver com menos de 25% de vida"
      },
     ]
 
-    equiploja = [
+    equiploja = [ #lista de equipamentos na loja (armas)
     {"nome": "N/A",
      "preco": 0,
      "desc": "Bom, não da pra ficar pior que isso né?",
@@ -317,7 +338,7 @@ def main():
      },
     {"nome": "Espada de prata",
      "preco": 500,
-     "desc": "A melhor espada de prata que se pode encontrar na cidade! (provavelmente a única)",
+     "desc": "A melhor espada de prata que se pode encontrar na cidade! (provavelmente a única também)",
      "dano_min": 7,
      "dano_max": 7,
      "id": 3
