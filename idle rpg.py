@@ -1,10 +1,10 @@
 import random
 import time
 
-# fazer loja() (pensei em um item só, que seria uma poção. ela seria usada automaticamente quando o jogador caisse abaixo de x% de vida)
-    # talvez de pra colocar equipamentos fazendo um sistema mais simples (quando vc compra um, vc substitui o anterior e aparece um mais novo na loja)
+# ADICIONAR CONTEUDO: INIMIGOS DIFERENTES E ESPADAS DIFERENTES
 # critico talvez?
 # dodge chance talvez?
+
 
 def nome_equip(jogador, equiploja):
     for i in range(len(equiploja)):
@@ -82,21 +82,25 @@ def loja(jogador, iloja, equiploja): #loja onde o jogador pode comprar itens
     for i in range(len(equiploja)):
             if equiploja[i]["id"] == jogador["equipamento"]+1:
                 print(f'{len(iloja)+1}- {equiploja[i]["nome"]} ({equiploja[i]["preco"]} de ouro)\n    {equiploja[i]["desc"]}')
+
     try:
         escolha = int(input(f'{len(iloja) + jogador["equipamento"]+2}- Voltar para a praça principal\n'))
     except ValueError:
         print('Digite apenas números válidos!')
         return loja(jogador, iloja, equiploja)
+
     if escolha > len(iloja):
         if jogador['ouro'] < equiploja[jogador["equipamento"]+1]["preco"]:
             print('Você não possui dinheiro suficiente para isso.')
         else:
-            print('"Ótima escolha, faça bom proveito..."') #VOCE PAROU AQUI !!! FAÇA A MECANICA DE COMPRA DE FATO E A MUDANÇA DE STATS (parte mais dificil)
+            print('"Ótima escolha, faça bom proveito..."')
             jogador['ouro'] -= equiploja[jogador["equipamento"]+1]["preco"]
             jogador['equipamento'] = equiploja[jogador["equipamento"]+1]['id']
             jogador['dano_min'] += equiploja[jogador["equipamento"]]["dano_min"]
             jogador['dano_max'] += equiploja[jogador["equipamento"]]["dano_max"]
             
+            jogador['dano_min'] -= equiploja[jogador["equipamento"]-1]["dano_min"]
+            jogador['dano_max'] -= equiploja[jogador["equipamento"]-1]["dano_max"]
             
     else:
         if jogador['ouro'] < iloja[escolha-1]["preco"]:
@@ -172,8 +176,8 @@ def subiu_de_nivel(jogador): #função chamada para verificar caso o jogador ten
         jogador['vida'] += 10
         jogador['vida_atual'] = jogador['vida']
         if jogador['nivel'] % 2 == 0:
-            jogador['dano_min'] += 2
-            jogador['dano_max'] += 3
+            jogador['dano_min'] += 1
+            jogador['dano_max'] += 1
             jogador['defesa'] += 2
         exibe_status(jogador, [], levelup=True)
         input('Pressione [ENTER] para prosseguir')
@@ -267,7 +271,7 @@ def main():
     "dano_min": 10,
     "dano_max": 18,
     "defesa": 6,
-    "exp_dado": 8,
+    "exp_dado": 9,
     "ouro_dado": 20,
     "nivel": 5},
     {"nome": "Orc",
@@ -284,7 +288,8 @@ def main():
     iloja = [
     {"nome": "Poção de cura",
      "preco": 80,
-     "desc": "Você usará a poção automaticamente quando estiver com menos de 25% de vida"},
+     "desc": "Você usará a poção automaticamente quando estiver com menos de 25% de vida"
+     },
     ]
 
     equiploja = [
@@ -298,17 +303,38 @@ def main():
 
     {"nome": "Espada de madeira",
      "preco": 100,
-     "desc": "Uma espada simples, mas suficiente para algumas coisas",
+     "desc": "Uma espada simples, mas suficiente para algumas coisas.",
      "dano_min": 3,
      "dano_max": 3,
      "id": 1
     },
-    {"nome": "Espada de cobre",
+    {"nome": "Espada de bronze",
      "preco": 200,
-     "desc": "Não é ótima, mas com certeza melhor que a de madeira",
-     "dano_min": 3,
-     "dano_max": 3,
+     "desc": "Não é ótima, mas com certeza melhor que a de madeira.",
+     "dano_min": 5,
+     "dano_max": 5,
      "id": 2
+     },
+    {"nome": "Espada de prata",
+     "preco": 500,
+     "desc": "A melhor espada de prata que se pode encontrar na cidade! (provavelmente a única)",
+     "dano_min": 7,
+     "dano_max": 7,
+     "id": 3
+     },
+    {"nome": "Espada de ouro",
+     "preco": 1000,
+     "desc": "Uma espada cara, mas sua usabilidade faz valer a pena.",
+     "dano_min": 10,
+     "dano_max": 10,
+     "id": 4
+     },
+    {"nome": "Espada de diamante",
+     "preco": 1500,
+     "desc": "Essa com certeza da conta de tudo. A melhor que se pode encontrar por aqui.",
+     "dano_min": 14,
+     "dano_max": 14,
+     "id": 5
      },
     ]
 
