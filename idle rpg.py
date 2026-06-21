@@ -122,7 +122,7 @@ def loja(jogador, iloja, equiploja): #loja onde o jogador pode comprar itens
         return loja(jogador, iloja, equiploja)
     
 def arena(jogador, inimigos): # A arena, onde o usuario pode escolher com qual monstro lutar para conseguir ficar mais forte
-    print('\033[94mBem-vindo a arena!\ncom quem deseja lutar?/033[0m')
+    print('\033[94mBem-vindo a arena!\ncom quem deseja lutar?\033[0m\n')
     
     for i in range(len(inimigos)):
         print(f'{i+1}- {inimigos[i]["nome"]} | Nível: {inimigos[i]["nivel"]}')
@@ -195,7 +195,7 @@ def subiu_de_nivel(jogador): #função chamada para verificar caso o jogador ten
 def luta(jogador, inimigo): #função utilizada pra começar uma luta quando o jogador está na arena
     inimigo_atual = inimigo.copy()
     print('-'*50)
-    print(f'\033[32m{jogador["nome"]}\033[0m está contra {inimigo_atual["nome"]}')
+    print(f'{jogador["nome"]} está contra {inimigo_atual["nome"]}')
     print('-'*50)
 
     while jogador["vida_atual"] > 0 and inimigo_atual["vida_atual"] > 0:
