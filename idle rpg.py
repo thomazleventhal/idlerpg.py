@@ -1,6 +1,7 @@
 import random
 import time
 import os
+import winsound
 
 # ADICIONAR CONTEUDO: INIMIGOS DIFERENTES E ESPADAS DIFERENTES E UM FIM?
 # cores e sons
@@ -17,11 +18,12 @@ def nome_equip(jogador, equiploja):
 def exibe_status(jogador, equiploja, levelup=False): # Função basica que mostra os status do jogador caso necessário
     print('-'*50)
     if levelup:
+        winsound.Beep(440, 1000)
         print('\033[92mSeus status aumentaram!\033[0m')
         for i, j in jogador.items():
             if i != "vida_atual" and i != "exp" and i != "nivel" and i != "nome" and i != "ouro" and i != 'pocao' and i != "equipamento":
                 time.sleep(0.2)
-                print(f'\033[36m{i}: {j}\033[0m')
+                print(f'{i}: {j}')
     else:
         for i, j in jogador.items():
                 time.sleep(0.2)
